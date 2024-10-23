@@ -1,0 +1,61 @@
+.hire-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 15%;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+.hire-date {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.hire-title {
+  font-size: clamp(4rem, 8vw, 6rem);
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1;
+  color: var(--color-text); /* Memastikan keterbacaan judul */
+}
+
+.wave-emoji {
+  font-size: 3rem;
+  margin: var(--spacing-lg) 0;
+  animation: wave 2s infinite;
+}
+
+.contact-text {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+}
+
+.contact-item {
+  color: var(--color-text-secondary); /* Default state */
+  transition: var(--transition-smooth);
+  cursor: pointer;
+}
+
+.contact-item:hover {
+  color: var(--color-text); /* Full visibility on hover */
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .hire-section {
+    padding: 0 5%;
+  }
+}

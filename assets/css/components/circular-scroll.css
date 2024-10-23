@@ -1,0 +1,57 @@
+.circular-scroll {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 120px;
+  height: 120px;
+  z-index: 10;
+}
+
+.circular-scroll svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 10s linear infinite;
+}
+
+.circular-scroll text {
+  fill: var(--color-text); /* Warna teks putih */
+  font-size: 8px;
+  letter-spacing: 1px;
+  opacity: 0.8; /* Opacity yang lebih tinggi */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.social-links {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  z-index: 10;
+}
+
+.social-links a {
+  color: var(--color-text);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: var(--transition-smooth);
+}
+
+.social-links a:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .circular-scroll,
+  .social-links {
+    display: none;
+  }
+}

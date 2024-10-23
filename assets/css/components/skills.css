@@ -1,0 +1,42 @@
+.skills-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 15%;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+.skills-title {
+  font-size: clamp(4rem, 8vw, 6rem);
+  font-weight: 600;
+  margin-bottom: 4rem;
+  line-height: 1;
+  color: var(--color-text); /* Memastikan keterbacaan judul */
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.skill-line {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--color-text-muted); /* Default state */
+  transition: var(--transition-smooth);
+  cursor: default;
+  line-height: 1.2;
+}
+
+.skill-line:hover {
+  color: var(--color-text); /* Full visibility on hover */
+  transform: translateX(20px);
+}
+
+@media (max-width: 768px) {
+  .skills-section {
+    padding: 0 5%;
+  }
+}

@@ -1,0 +1,58 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 15%;
+  position: relative;
+}
+
+.hero-content {
+  max-width: 900px;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600; /* Font weight lebih tebal */
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--color-text); /* Warna teks putih penuh */
+  opacity: 1; /* Opacity penuh */
+}
+
+.hero-description {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  opacity: 0.9; /* Tingkatkan opacity */
+  max-width: 800px;
+  margin-bottom: 3rem;
+  color: var(--color-text-secondary);
+}
+
+.circular-scroll {
+  margin: 0 auto;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+}
+
+.circular-scroll svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 20s linear infinite;
+}
+
+.circular-scroll text {
+  fill: var(--color-text-secondary);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 0 5%;
+  }
+}
