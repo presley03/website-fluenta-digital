@@ -56,3 +56,21 @@
     padding: 0 5%;
   }
 }
+/* Tambahkan di file hero.css atau style utama */
+.hero-title {
+    position: relative;
+}
+
+.blink-cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { 
+        opacity: 1;
+    }
+    50% { 
+        opacity: 0; 
+    }
+}

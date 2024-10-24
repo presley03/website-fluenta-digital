@@ -1,23 +1,26 @@
 .circular-scroll {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  width: 120px;
-  height: 120px;
-  z-index: 10;
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 150px;
+    height: 150px;
+    z-index: 10;
 }
 
 .circular-scroll svg {
-  width: 100%;
-  height: 100%;
-  animation: rotate 10s linear infinite;
+    width: 100%;
+    height: 100%;
+    animation: rotate 10s linear infinite;
 }
 
 .circular-scroll text {
-  fill: var(--color-text); /* Warna teks putih */
-  font-size: 8px;
-  letter-spacing: 1px;
-  opacity: 0.8; /* Opacity yang lebih tinggi */
+    fill: var(--color-text);
+    font-size: 10px; /* Sedikit lebih kecil */
+    letter-spacing: 0;
+}
+
+.circular-scroll path {
+    fill: none;
 }
 
 @keyframes rotate {
