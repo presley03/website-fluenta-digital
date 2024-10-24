@@ -1,42 +1,151 @@
+
+/* Import font futuristik (bisa disesuaikan) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+/* Skills Section Styling */
 .skills-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 15%;
-  position: relative;
-  background-color: var(--color-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 15%;
+    position: relative;
+    background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
+    overflow: hidden;
+}
+
+/* Background interaktif */
+.skills-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
+                rgba(37, 99, 235, 0.1), 
+                transparent 25%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.skills-section:hover .skills-bg {
+    opacity: 1;
 }
 
 .skills-title {
-  font-size: clamp(4rem, 8vw, 6rem);
-  font-weight: 600;
-  margin-bottom: 4rem;
-  line-height: 1;
-  color: var(--color-text); /* Memastikan keterbacaan judul */
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(4rem, 8vw, 6rem);
+    font-weight: 600;
+    margin-bottom: 4rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
 }
 
 .skills-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .skill-line {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  color: var(--color-text-muted); /* Default state */
-  transition: var(--transition-smooth);
-  cursor: default;
-  line-height: 1.2;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    cursor: default;
+    display: inline-block; /* Membuat container sesuai panjang teks */
+    position: relative;
+    text-shadow: none; /* Reset text shadow */
+}
+
+/* Animasi muncul untuk setiap skill */
+.skill-line {
+    animation: slideIn 0.5s ease forwards;
+}
+
+.skill-line:nth-child(1) { animation-delay: 0.1s; }
+.skill-line:nth-child(2) { animation-delay: 0.2s; }
+.skill-line:nth-child(3) { animation-delay: 0.3s; }
+.skill-line:nth-child(4) { animation-delay: 0.4s; }
+
+/* Efek neon pada hover */
+.skill-line::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    filter: blur(15px);
 }
 
 .skill-line:hover {
-  color: var(--color-text); /* Full visibility on hover */
-  transform: translateX(20px);
+   color: #ffffff;
+    text-shadow: 
+        0 0 7px rgba(59, 130, 246, 0.5),
+        0 0 10px rgba(59, 130, 246, 0.5),
+        0 0 21px rgba(59, 130, 246, 0.5); /* Efek neon hanya pada teks */
 }
 
+.skill-line:hover::before {
+   content: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        filter: blur(15px);
+        opacity: 0.5;
+    }
+    50% {
+        filter: blur(20px);
+        opacity: 0.7;
+    }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .skills-section {
-    padding: 0 5%;
-  }
+    .skills-section {
+        padding: 0 5%;
+    }
+}
+
+/* Optional: Tambahkan animasi pulse pada text-shadow */
+@keyframes textPulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 7px rgba(59, 130, 246, 0.5),
+            0 0 10px rgba(59, 130, 246, 0.5),
+            0 0 21px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+        text-shadow: 
+            0 0 14px rgba(59, 130, 246, 0.7),
+            0 0 20px rgba(59, 130, 246, 0.7),
+            0 0 42px rgba(59, 130, 246, 0.7);
+    }
+}
+
+.skill-line:hover {
+    color: #ffffff;
+    animation: textPulse 2s infinite;
 }
