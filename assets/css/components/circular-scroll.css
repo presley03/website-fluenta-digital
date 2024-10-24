@@ -22,8 +22,8 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .svg-scroll {
-        width: 100px;      /* Lebih kecil di mobile */
-        height: 100px;
+        width: 250px;      /* Lebih kecil di mobile */
+        height: 250px;
         bottom: 1rem;     /* Lebih dekat ke bawah */
         transform: translate(-50%, 0) rotate(104.895deg) scale(0.4); /* Scale lebih kecil */
     }
@@ -41,8 +41,8 @@
 /* Untuk layar yang sangat kecil */
 @media (max-width: 480px) {
     .svg-scroll {
-        width: 150px;     /* Lebih kecil lagi */
-        height: 150px;
+        width: 200px;     /* Lebih kecil lagi */
+        height: 200px;
         bottom: 0.5rem;  /* Lebih dekat ke bawah */
         transform: translate(-50%, 0) rotate(104.895deg) scale(0.3); /* Scale lebih kecil lagi */
     }
