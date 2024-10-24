@@ -4,25 +4,26 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: 2rem 3rem; /* Tambah padding horizontal */
+    padding: 2rem 3rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
     z-index: 100;
     background: rgba(26, 26, 26, 0.95); /* Background lebih solid */
 }
 
 .nav-links {
     display: flex;
-    gap: 3rem;
-    justify-content: flex-start; /* Ratakan ke kiri */
+    flex-direction: row;     /* Default horizontal */
+    gap: 2rem;
+    align-items: center;
 }
 
 .nav-links a {
-    color: #ffffff;
+    color: var(--color-text);
     text-decoration: none;
     font-size: 1rem;
-    opacity: 0.8;
+    opacity: 0.7;
     transition: opacity 0.3s ease;
 }
 
@@ -49,15 +50,15 @@
     bottom: 0;
     background: rgba(26, 26, 26, 0.98);
     padding: 3rem 2rem;
-    flex-direction: column;
-    align-items: center;
+    /* flex-direction: column; */
+    align-items: flex-start;
     gap: 2rem;
 }
 
 .mobile-menu a {
     color: white;
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 0.5rem;
     opacity: 0.8;
 }
 
@@ -65,47 +66,34 @@
     display: flex;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .navbar {
-        padding: 1.5rem;
-        justify-content: flex-start; /* Ratakan ke kiri di mobile */
+        padding: 1rem;
     }
 
     .nav-links {
-        display: flex; /* Tetap tampilkan */
-        gap: 1.5rem;
-    }
-
-    .menu-button {
-        display: block;
-    }
-
-    .mobile-menu.active {
-        display: flex;
-    }
-}
-
-/* Tetap tampilkan nav-links di mobile dan posisikan di kiri */
-@media (max-width: 480px) {
-    .navbar {
-        padding: 1.5rem;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+        flex-direction: row;  /* Tetap horizontal di mobile */
+        gap: 1rem;           /* Gap lebih kecil di mobile */
+        justify-content: flex-end; /* Rata kanan */
     }
 
     .nav-links a {
-        font-size: 0.75rem;
+        font-size: 0.75rem;  /* Font lebih kecil */
     }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        gap: 0.8rem;        /* Gap lebih kecil lagi */
+    }
+
+    .nav-links a {
+        font-size: 0.7rem;  /* Font lebih kecil lagi */
+    }
+}
 
     /* Sembunyikan menu button karena tidak diperlukan */
     .menu-button,
     .mobile-menu {
         display: none;
     }
-}

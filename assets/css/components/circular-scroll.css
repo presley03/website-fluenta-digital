@@ -1,60 +1,58 @@
-.circular-scroll {
-    position: fixed;
+.svg-scroll {
+    position: absolute;
     bottom: 2rem;
-    left: 2rem;
-    width: 150px;
-    height: 150px;
+    left: 50%;
+    width: 250px;
+    height: 250px;
+    transform: translate(-50%, 0) rotate(104.895deg) scale(0.5);
+    opacity: 1;
     z-index: 10;
+    animation: spin 10s linear infinite;
 }
 
-.circular-scroll svg {
-    width: 100%;
-    height: 100%;
-    animation: rotate 10s linear infinite;
+@keyframes spin {
+    from {
+        transform: translate(-50%, 0) rotate(0deg) scale(0.5);
+    }
+    to {
+        transform: translate(-50%, 0) rotate(360deg) scale(0.5);
+    }
 }
 
-.circular-scroll text {
-    fill: var(--color-text);
-    font-size: 10px; /* Sedikit lebih kecil */
-    letter-spacing: 0;
-}
-
-.circular-scroll path {
-    fill: none;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.social-links {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  gap: 1.5rem;
-  z-index: 10;
-}
-
-.social-links a {
-  color: var(--color-text);
-  text-decoration: none;
-  opacity: 0.7;
-  transition: var(--transition-smooth);
-}
-
-.social-links a:hover {
-  opacity: 1;
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .circular-scroll,
-  .social-links {
-    display: none;
-  }
+    .svg-scroll {
+        width: 100px;      /* Lebih kecil di mobile */
+        height: 100px;
+        bottom: 1rem;     /* Lebih dekat ke bawah */
+        transform: translate(-50%, 0) rotate(104.895deg) scale(0.4); /* Scale lebih kecil */
+    }
+
+    @keyframes spin {
+        from {
+            transform: translate(-50%, 0) rotate(0deg) scale(0.4);
+        }
+        to {
+            transform: translate(-50%, 0) rotate(360deg) scale(0.4);
+        }
+    }
+}
+
+/* Untuk layar yang sangat kecil */
+@media (max-width: 480px) {
+    .svg-scroll {
+        width: 60px;     /* Lebih kecil lagi */
+        height: 60px;
+        bottom: 0.5rem;  /* Lebih dekat ke bawah */
+        transform: translate(-50%, 0) rotate(104.895deg) scale(0.3); /* Scale lebih kecil lagi */
+    }
+
+    @keyframes spin {
+        from {
+            transform: translate(-50%, 0) rotate(0deg) scale(0.3);
+        }
+        to {
+            transform: translate(-50%, 0) rotate(360deg) scale(0.3);
+        }
+    }
 }
