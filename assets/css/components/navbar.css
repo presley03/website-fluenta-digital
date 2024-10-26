@@ -97,3 +97,123 @@
     .mobile-menu {
         display: none;
     }
+
+.language-switcher {
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 100;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.3s ease;
+}
+
+.lang-btn:hover {
+    opacity: 1;
+}
+
+.lang-btn.active {
+    opacity: 1;
+    font-weight: 500;
+}
+
+/* Di navbar.css */
+.language-switcher {
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 100;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Efek neon untuk tombol aktif */
+.lang-btn.active {
+    opacity: 1;
+    color: #fff;
+    text-shadow: 
+        0 0 7px rgba(59, 130, 246, 0.7),
+        0 0 10px rgba(59, 130, 246, 0.5),
+        0 0 21px rgba(59, 130, 246, 0.3);
+}
+
+/* Efek glow saat hover */
+.lang-btn:hover {
+    opacity: 1;
+    color: #fff;
+    text-shadow: 
+        0 0 7px rgba(59, 130, 246, 0.7),
+        0 0 10px rgba(59, 130, 246, 0.5),
+        0 0 21px rgba(59, 130, 246, 0.3);
+}
+
+/* Separator dengan efek neon */
+.lang-separator {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 0.2rem;
+    text-shadow: 
+        0 0 7px rgba(59, 130, 246, 0.3),
+        0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+/* Tambahkan animasi pulse untuk efek yang lebih dinamis */
+@keyframes neonPulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 7px rgba(59, 130, 246, 0.7),
+            0 0 10px rgba(59, 130, 246, 0.5),
+            0 0 21px rgba(59, 130, 246, 0.3);
+    }
+    50% {
+        text-shadow: 
+            0 0 14px rgba(59, 130, 246, 0.9),
+            0 0 20px rgba(59, 130, 246, 0.7),
+            0 0 42px rgba(59, 130, 246, 0.5);
+    }
+}
+
+.lang-btn.active {
+    animation: neonPulse 2s infinite;
+}
+
+/* Container glow effect */
+.language-switcher::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 6px;
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.language-switcher:hover::before {
+    opacity: 1;
+}

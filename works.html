@@ -1,0 +1,99 @@
+<!-- works.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works - Fluenta Digital</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components/works.css">
+    <link rel="stylesheet" href="assets/css/components/card.css">
+    <link rel="stylesheet" href="assets/css/components/filter.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html">Fluenta Digital</a>
+        </div>
+        <div class="nav-menu">
+            <a href="about.html">About</a>
+            <a href="works.html" class="active">Works</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-lang">
+            <button class="lang-switch" data-lang="id">ID</button>
+            <button class="lang-switch" data-lang="en">EN</button>
+        </div>
+    </nav>
+
+    <!-- Works Header -->
+    <header class="works-header">
+        <h1>Our Works_</h1>
+        <p class="subtitle">Portfolio yang kami banggakan</p>
+    </header>
+
+    <!-- Category Filter -->
+    <section class="filter-container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-category="all">Semua</button>
+            <button class="filter-btn" data-category="ui-ux">
+                <span class="icon">✨</span>UI/UX Design
+            </button>
+            <button class="filter-btn" data-category="mobile">
+                <span class="icon">📱</span>Mobile Apps
+            </button>
+            <button class="filter-btn" data-category="web">
+                <span class="icon">🌐</span>Websites
+            </button>
+            <button class="filter-btn" data-category="automation">
+                <span class="icon">⚡</span>Automation
+            </button>
+        </div>
+    </section>
+
+    <!-- Works Grid -->
+    <main class="works-grid">
+        <!-- Portfolio items will be dynamically inserted here -->
+        <div class="portfolio-card" data-category="ui-ux">
+            <div class="card-content">
+                <span class="card-category">UI/UX Design</span>
+                <h3 class="card-title">E-commerce App Redesign</h3>
+                <p class="card-description">
+                    Redesign UI/UX untuk meningkatkan conversion rate dan user experience
+                </p>
+                <div class="card-tags">
+                    <span class="tag">Figma</span>
+                    <span class="tag">Prototype</span>
+                    <span class="tag">User Research</span>
+                </div>
+            </div>
+            <div class="card-overlay">
+                <button class="view-details">Lihat Detail</button>
+            </div>
+        </div>
+
+        <!-- More portfolio cards will be added dynamically -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" target="_blank" rel="noopener">Twitter</a>
+                <a href="#" target="_blank" rel="noopener">Instagram</a>
+                <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="#" target="_blank" rel="noopener">GitHub</a>
+            </div>
+            <div class="footer-text">
+                <p>© 2024 Fluenta Digital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/components/works.js"></script>
+    <script src="assets/js/components/portfolio.js"></script>
+    <script src="assets/js/components/filter.js"></script>
+</body>
+</html>

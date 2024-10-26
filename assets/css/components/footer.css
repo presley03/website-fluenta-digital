@@ -1,0 +1,49 @@
+/* Di footer.css */
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    z-index: 100;
+}
+
+.resume-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.social-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.social-link {
+    color: var(--color-text);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.resume-link:hover,
+.social-link:hover {
+    opacity: 1;
+}
+
+/* Arrow icon untuk links */
+.arrow-icon {
+    font-size: 0.8em;
+    transform: rotate(-45deg);
+}

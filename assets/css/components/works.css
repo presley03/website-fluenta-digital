@@ -1,0 +1,56 @@
+/* assets/css/components/works.css */
+
+.works-header {
+    padding: 120px 0 60px;
+    text-align: center;
+}
+
+.works-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.works-header h1::after {
+    content: "_";
+    opacity: 1;
+    animation: blink 1s infinite;
+}
+
+.works-header .subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .works-header {
+        padding: 100px 1rem 40px;
+    }
+
+    .works-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .works-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+}
