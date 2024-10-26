@@ -1,64 +1,57 @@
 .hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 15%;
-  position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 15%;
+    position: relative;
 }
 
 .hero-content {
-  max-width: 900px;
+    max-width: 900px;
+    margin-bottom: 80px; /* Tambahkan margin untuk memberi ruang pada circular scroll */
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 600; /* Font weight lebih tebal */
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-  color: var(--color-text); /* Warna teks putih penuh */
-  opacity: 1; /* Opacity penuh */
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+    opacity: 1;
+    position: relative;
 }
 
 .hero-description {
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  opacity: 0.9; /* Tingkatkan opacity */
-  max-width: 800px;
-  margin-bottom: 3rem;
-  color: var(--color-text-secondary);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    opacity: 0.9;
+    max-width: 800px;
+    margin-bottom: 3rem;
+    color: var(--color-text-secondary);
 }
 
 .circular-scroll {
-  margin: 0 auto;
-  width: 120px;
-  height: 120px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 50px;
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 50px;
+    z-index: 1; /* Pastikan tidak menimpa konten */
 }
 
 .circular-scroll svg {
-  width: 100%;
-  height: 100%;
-  animation: rotate 20s linear infinite;
+    width: 100%;
+    height: 100%;
+    animation: rotate 20s linear infinite;
 }
 
 .circular-scroll text {
-  fill: var(--color-text-secondary);
-  font-size: 8px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-@media (max-width: 768px) {
-  .hero {
-    padding: 0 5%;
-  }
-}
-/* Tambahkan di file hero.css atau style utama */
-.hero-title {
-    position: relative;
+    fill: var(--color-text-secondary);
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .blink-cursor {
@@ -72,5 +65,30 @@
     }
     50% { 
         opacity: 0; 
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .hero {
+        padding: 0 5%;
+    }
+}
+
+/* Landscape mode fix */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .hero {
+        min-height: auto;
+        padding: 100px 15% 120px; /* Tambah padding bottom untuk scroll */
+    }
+
+    .hero-content {
+        margin-bottom: 60px; /* Kurangi margin di landscape */
+    }
+
+    .circular-scroll {
+        width: 80px; /* Ukuran lebih kecil di landscape */
+        height: 80px;
+        bottom: 20px;
     }
 }

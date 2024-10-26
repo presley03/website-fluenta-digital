@@ -42,8 +42,39 @@
     opacity: 1;
 }
 
-/* Arrow icon untuk links */
 .arrow-icon {
     font-size: 0.8em;
     transform: rotate(-45deg);
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    .social-links {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 1.5rem;
+    }
+}
+
+/* Untuk layar yang lebih kecil */
+@media screen and (max-width: 480px) {
+    .footer {
+        padding: 1.5rem;
+    }
+
+    .social-links {
+        gap: 1rem;
+    }
+    
+    .social-link {
+        font-size: 0.9rem;
+    }
 }
