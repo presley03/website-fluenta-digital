@@ -23,6 +23,22 @@
   --breakpoint-mobile: 768px;
   --breakpoint-tablet: 1024px;
   --breakpoint-desktop: 1280px;
+
+   /* Tambahan untuk animasi */
+  --animation-speed-fast: 0.2s;
+  --animation-speed-normal: 0.3s;
+  --animation-speed-slow: 0.5s;
+
+    /* Tambahan untuk efek neon */
+  --neon-primary: rgba(59, 130, 246, 0.7);
+  --neon-secondary: rgba(59, 130, 246, 0.5);
+  --neon-tertiary: rgba(59, 130, 246, 0.3);
+
+    /* Tambahan untuk z-index management */
+  --z-navbar: 100;
+  --z-dropdown: 200;
+  --z-modal: 300;
+  --z-overlay: 400;
 }
 
 /* Base Reset */
@@ -39,3 +55,4 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
 }
+
