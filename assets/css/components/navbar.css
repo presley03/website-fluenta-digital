@@ -1,249 +1,82 @@
-/* Di navbar.css */
 .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: left;
-    z-index: 100;
-    background: #000000; /* Background lebih solid */
-    will-change: transform; /* Optimize untuk animasi */
-    backface-visibility: hidden; /* Mencegah flickering */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.6rem 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 200;
+  background: rgba(3,3,5,.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: padding .3s ease;
+}
+
+.navbar.scrolled {
+  padding: 1.1rem 15%;
 }
 
 .nav-links {
-    display: flex;
-    flex-direction: row;     /* Default horizontal */
-    gap: 2rem;
-    align-items: center;
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
 }
 
 .nav-links a {
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: 1rem;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
+  font-family: 'Courier New', monospace;
+  font-size: .75rem;
+  letter-spacing: .14em;
+  color: rgba(255,255,255,.4);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .25s;
 }
-
-.nav-links a:hover {
-    opacity: 1;
-}
-
-/* Mobile Menu */
-.menu-button {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    z-index: 101;
-}
-
-.mobile-menu {
-    position: fixed;
-    display: none;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(26, 26, 26, 0.98);
-    padding: 3rem 2rem;
-    /* flex-direction: column; */
-    align-items: flex-start;
-    gap: 2rem;
-}
-
-.mobile-menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 0.5rem;
-    opacity: 0.8;
-}
-
-.mobile-menu.active {
-    display: flex;
-}
-
-@media (max-width: 768px) {
-    .navbar {
-        padding: 1rem;
-    }
-
-    .nav-links {
-        flex-direction: row;  /* Tetap horizontal di mobile */
-        gap: 1rem;           /* Gap lebih kecil di mobile */
-        justify-content: flex-end; /* Rata kanan */
-    }
-
-    .nav-links a {
-        font-size: 0.75rem;  /* Font lebih kecil */
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-links {
-        gap: 0.8rem;        /* Gap lebih kecil lagi */
-    }
-
-    .nav-links a {
-        font-size: 0.7rem;  /* Font lebih kecil lagi */
-    }
-}
-
-    /* Sembunyikan menu button karena tidak diperlukan */
-    .menu-button,
-    .mobile-menu {
-        display: none;
-    }
+.nav-links a:hover,
+.nav-links a.active { color: rgba(255,255,255,.9); }
 
 .language-switcher {
-    position: fixed;
-    right: 2rem;
-    top: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
 }
 
 .lang-btn {
-    background: none;
-    border: none;
-    color: var(--color-text);
-    opacity: 0.7;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: opacity 0.3s ease;
-    padding: 0.5rem 0.8rem; /* Sedikit lebih besar untuk area klik */
-    position: relative;
-    
-    /* Tambahan untuk keyboard navigation */
-    &:focus-visible {
-        outline: 2px solid rgba(59, 130, 246, 0.5);
-        outline-offset: 2px;
-    }
+  background: none;
+  border: none;
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.3);
+  cursor: pointer;
+  padding: .3rem .4rem;
+  transition: color .25s, text-shadow .25s;
 }
 
-.lang-btn:hover {
-    opacity: 1;
+.lang-btn:hover,
+.lang-btn.active {
+  color: rgba(255,255,255,.9);
 }
 
 .lang-btn.active {
-    opacity: 1;
-    font-weight: 500;
+  animation: neonPulse 2.5s ease infinite;
 }
 
-/* Di navbar.css */
-.language-switcher {
-    position: fixed;
-    right: 2rem;
-    top: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    z-index: 100;
-    padding: 0.5rem;
-    border-radius: 4px;
-}
-
-.lang-btn {
-    background: none;
-    border: none;
-    color: var(--color-text);
-    opacity: 0.7;
-    cursor: pointer;
-    font-size: 0.9rem;
-    padding: 0.3rem 0.5rem;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-/* Efek neon untuk tombol aktif */
-.lang-btn.active {
-    opacity: 1;
-    color: #fff;
-    text-shadow: 
-        0 0 7px rgba(59, 130, 246, 0.7),
-        0 0 10px rgba(59, 130, 246, 0.5),
-        0 0 21px rgba(59, 130, 246, 0.3);
-}
-
-/* Efek glow saat hover */
-.lang-btn:hover {
-    opacity: 1;
-    color: #fff;
-    text-shadow: 
-        0 0 7px rgba(59, 130, 246, 0.7),
-        0 0 10px rgba(59, 130, 246, 0.5),
-        0 0 21px rgba(59, 130, 246, 0.3);
-}
-
-/* Separator dengan efek neon */
 .lang-separator {
-    color: rgba(255, 255, 255, 0.3);
-    margin: 0 0.2rem;
-    text-shadow: 
-        0 0 7px rgba(59, 130, 246, 0.3),
-        0 0 10px rgba(59, 130, 246, 0.2);
+  color: rgba(255,255,255,.15);
+  font-size: .7rem;
 }
 
-/* Tambahkan animasi pulse untuk efek yang lebih dinamis */
 @keyframes neonPulse {
-    0%, 100% {
-        text-shadow: 
-            0 0 7px rgba(59, 130, 246, 0.7),
-            0 0 10px rgba(59, 130, 246, 0.5),
-            0 0 21px rgba(59, 130, 246, 0.3);
-    }
-    50% {
-        text-shadow: 
-            0 0 14px rgba(59, 130, 246, 0.9),
-            0 0 20px rgba(59, 130, 246, 0.7),
-            0 0 42px rgba(59, 130, 246, 0.5);
-    }
+  0%,100% { text-shadow: 0 0 6px rgba(100,160,255,.6); }
+  50%      { text-shadow: 0 0 14px rgba(100,160,255,.9); }
 }
 
-.lang-btn.active {
-    animation: neonPulse 2s infinite;
-}
-
-/* Container glow effect */
-.language-switcher::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    background: rgba(59, 130, 246, 0.1);
-    border-radius: 6px;
-    z-index: -1;
-    filter: blur(8px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.language-switcher:hover::before {
-    opacity: 1;
-}
-
-/* Tambahan untuk better mobile experience */
 @media (max-width: 768px) {
-    .language-switcher {
-        right: 1rem;
-        top: 1rem;
-    }
-
-    .lang-btn {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.6rem;
-    }
-}
-
-/* Tambahan untuk dark mode support */
-@media (prefers-color-scheme: dark) {
-    .navbar {
-        background: rgba(18, 18, 18, 0.95);
-    }
+  .navbar { padding: 1.2rem 5%; }
+  .navbar.scrolled { padding: 1rem 5%; }
+  .nav-links { gap: 1.4rem; }
+  .nav-links a { font-size: .68rem; }
 }

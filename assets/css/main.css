@@ -1,68 +1,82 @@
-/* assets/css/main.css */
-
 :root {
-    --background: #000000;
-    --text: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --border: rgba(255, 255, 255, 0.1);
+  --color-bg:             #030305;
+  --color-text:           #ffffff;
+  --color-text-secondary: rgba(255,255,255,.45);
+  --color-text-muted:     rgba(255,255,255,.2);
+  --color-border:         rgba(255,255,255,.06);
+  --font-sans:            'Inter', sans-serif;
+  --font-mono:            'Courier New', monospace;
+  --font-display:         'Space Grotesk', sans-serif;
+  --transition:           all .25s ease;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    background: var(--background);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.5;
-    overflow-x: hidden;
-    min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
-/* Content visibility */
+/* ── Global aurora — satu lapisan mengalir di belakang seluruh halaman ── */
+.aurora-global {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 12% 8%,  rgba(34,18,84,.30),  transparent 70%),
+    radial-gradient(55% 45% at 88% 28%, rgba(8,46,40,.26),   transparent 70%),
+    radial-gradient(50% 40% at 30% 55%, rgba(52,12,60,.22),  transparent 72%),
+    radial-gradient(60% 50% at 82% 78%, rgba(18,22,72,.26),  transparent 70%),
+    radial-gradient(50% 45% at 20% 95%, rgba(40,14,58,.20),  transparent 72%),
+    var(--color-bg);
+  background-attachment: fixed;
+  animation: auroraDrift 24s ease-in-out infinite alternate;
+}
+
+/* fine grid overlay agar terasa "engineered", sangat tipis */
+.aurora-global::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 30%, transparent 85%);
+}
+
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(0, -1.5%, 0) scale(1.04); }
+  100% { transform: translate3d(0, 1%, 0) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-global { animation: none; }
+}
+
 .content {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    min-height: 100vh;
+  opacity: 0;
+  transition: opacity .5s ease;
 }
+.content.loaded { opacity: 1; }
 
-.content.loaded {
-    opacity: 1;
+/* section reveal */
+section {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .8s ease, transform .8s ease;
 }
-
-/* Text utilities */
-.text-center {
-    text-align: center;
-}
-
-.text-secondary {
-    color: var(--text-secondary);
-}
-
-/* Spacing utilities */
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-8 { margin-top: 2rem; }
-
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-8 { margin-bottom: 2rem; }
-
-/* Container */
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        font-size: 14px;
-    }
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

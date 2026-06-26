@@ -5,41 +5,56 @@
   justify-content: center;
   padding: 0 15%;
   position: relative;
+  background: transparent;
 }
 
 .greeting-container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: 2.5rem;
+  max-width: 900px;
 }
 
 .greeting {
-  font-size: clamp(3rem, 6vw, 5rem);
-  font-weight: 700; /* Font weight lebih tebal */
-  color: var(--color-text); /* Warna teks putih penuh */
-  opacity: 1; /* Opacity penuh */
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.03em;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
 }
 
 .greeting-text {
   display: inline-block;
-  transition: var(--transition-smooth);
+  transition: opacity .4s ease;
 }
 
 .language-code {
-  font-size: 1rem;
-  opacity: 0.6;
-  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  font-size: .9rem;
+  font-weight: 400;
+  color: rgba(255,255,255,.25);
+  letter-spacing: .12em;
 }
 
 .about-description {
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  line-height: 1.4;
-  color: var(--color-text-secondary);
-  opacity: 0.9; /* Tingkatkan opacity */
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1.75;
+  color: rgba(255,255,255,.45);
+  max-width: 700px;
+}
+
+/* thin left border accent */
+.about-description {
+  border-left: 1px solid rgba(255,255,255,.08);
+  padding-left: 1.5rem;
 }
 
 @media (max-width: 768px) {
-  .about-section {
-    padding: 0 5%;
-  }
+  .about-section { padding: 0 5%; }
+  .about-description { padding-left: 1rem; }
 }

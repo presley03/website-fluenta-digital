@@ -1,61 +1,89 @@
 .hire-section {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
   padding: 0 15%;
   position: relative;
-  background-color: #000000;
+  background: transparent;
+  overflow: hidden;
 }
 
-.hire-date {
-  font-size: 1rem;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
+/* subtle corner glow */
+.hire-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(30,15,60,.5) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hire-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hire-eyebrow {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: rgba(255,255,255,.18);
+  margin-bottom: 1.2rem;
 }
 
 .hire-title {
-  font-size: clamp(4rem, 8vw, 6rem);
-  font-weight: 600;
-  margin-bottom: var(--spacing-lg);
-  line-height: 1;
-  color: var(--color-text); /* Memastikan keterbacaan judul */
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.0;
+  letter-spacing: -.03em;
+  margin-bottom: 1rem;
 }
 
-.wave-emoji {
-  font-size: 3rem;
-  margin: var(--spacing-lg) 0;
-  animation: wave 2s infinite;
-}
-
-.contact-text {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-xl);
+.hire-sub {
+  font-family: 'Courier New', monospace;
+  font-size: .85rem;
+  letter-spacing: .15em;
+  color: rgba(255,255,255,.2);
+  text-transform: uppercase;
+  margin-bottom: 3rem;
 }
 
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  gap: 1rem;
 }
 
 .contact-item {
-  color: var(--color-text-secondary); /* Default state */
-  transition: var(--transition-smooth);
-  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  color: rgba(255,255,255,.38);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  transition: color .25s, transform .25s;
+  width: fit-content;
 }
 
 .contact-item:hover {
-  color: var(--color-text); /* Full visibility on hover */
-  transform: translateY(-3px);
+  color: rgba(255,255,255,.85);
+  transform: translateX(6px);
+}
+
+.contact-icon {
+  font-size: .9rem;
+  opacity: .5;
 }
 
 @media (max-width: 768px) {
-  .hire-section {
-    padding: 0 5%;
-  }
+  .hire-section { padding: 0 5%; }
+  .hire-title { font-size: clamp(3rem, 12vw, 5rem); }
 }
