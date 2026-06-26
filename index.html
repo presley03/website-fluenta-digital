@@ -177,6 +177,45 @@ body.cursor-ready .cta-btn { cursor: none; }
   50%      { opacity: .82; }
 }
 
+/* Multilingual greeting under the intro orb */
+#greet {
+  position: fixed;
+  left: 50%;
+  top: calc(50% + 240px);      /* well clear of the orb's glow */
+  transform: translateX(-50%);
+  z-index: 12;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  white-space: nowrap;
+  /* the "water surface": text rising from below is clipped here */
+  overflow: hidden;
+  padding: .15em 0;            /* room so tall glyphs aren't cut */
+  line-height: 1.15;
+}
+#greet.show { opacity: 1; }
+#greet.gone { opacity: 0; transition: opacity .6s ease; }
+.greet-word {
+  display: inline-block;
+  font-family: var(--disp);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 300;                       /* thin → whispered, not bold */
+  letter-spacing: .14em;                  /* airy tracking → blends in */
+  color: rgba(255,255,255,.5);            /* dim → part of the ambience */
+  /* clip-up reveal — strong ease-out makes it "surface" elegantly */
+  transition: transform .85s cubic-bezier(.16,1,.3,1),
+              opacity   .85s cubic-bezier(.16,1,.3,1);
+}
+/* leaving: sink back up out of view */
+#greet.out .greet-word { transform: translateY(-110%); opacity: 0; }
+/* entering: start submerged below the surface (no transition yet) */
+#greet.in  .greet-word { transform: translateY(110%);  opacity: 0; transition: none; }
+
+@media (max-width: 768px) {
+  #greet { top: calc(50% + 200px); }
+}
+
 /* ══════════════════════════════════════════════════════════════
    AURORA BLOB (CSS, no canvas)
 ══════════════════════════════════════════════════════════════ */
@@ -444,8 +483,9 @@ body.cursor-ready .cta-btn { cursor: none; }
   transition: opacity .8s ease, transform .8s ease;
 }
 #s2.active .lat-group { opacity:1; transform:translateY(0); }
-#s2.active .lat-group:nth-of-type(1) { transition-delay: .85s; }
-#s2.active .lat-group:nth-of-type(2) { transition-delay: 1s; }
+#s2.active .lat-group:nth-of-type(1) { transition-delay: .8s; }
+#s2.active .lat-group:nth-of-type(2) { transition-delay: .92s; }
+#s2.active .lat-group:nth-of-type(3) { transition-delay: 1.04s; }
 
 .lat-group-label {
   font-family: var(--mono);
@@ -817,6 +857,11 @@ body:not(.cursor-ready) .qc { cursor: pointer; }
 <!-- Edge lighting (smartphone-style breathing glow at screen borders) -->
 <div id="edge-glow" aria-hidden="true"></div>
 
+<!-- Multilingual greeting under the intro orb -->
+<div id="greet" aria-hidden="true">
+  <span class="greet-word"></span>
+</div>
+
 <!-- Aurora blobs -->
 <div id="aurora">
   <div class="blob" id="b1"></div>
@@ -905,9 +950,9 @@ body:not(.cursor-ready) .qc { cursor: pointer; }
     <div class="lattice-bg" aria-hidden="true" id="latbg"></div>
     <!-- foreground -->
     <div class="lattice-fg">
-      <div class="lat-eyebrow">// WEB · APPS · AUTOMATION</div>
-      <h2 class="lat-title" data-en="Web, apps &amp;<br>automation.">Web, aplikasi &amp;<br>otomasi.</h2>
-      <p class="lat-sub" data-en="Fast and modern websites and apps, plus automation systems that save your time.">Website dan aplikasi yang cepat dan modern, plus sistem otomasi yang menghemat waktumu.</p>
+      <div class="lat-eyebrow">// WEB · APPS · HARDWARE</div>
+      <h2 class="lat-title" data-en="Where hardware<br>meets software.">Tempat perangkat<br>bertemu kode.</h2>
+      <p class="lat-sub" data-en="From websites and mobile apps to automation that bridges hardware and software — we build the whole system, end to end.">Dari website dan aplikasi hingga otomasi yang menyatukan perangkat keras dan perangkat lunak — kami bangun sistemnya secara utuh, ujung ke ujung.</p>
       <div class="lat-group">
         <div class="lat-group-label">// TECH STACK</div>
         <div class="lat-tags">
@@ -919,6 +964,13 @@ body:not(.cursor-ready) .qc { cursor: pointer; }
           <span class="ltag">Flutter</span>
           <span class="ltag">Firebase</span>
           <span class="ltag">MySQL</span>
+        </div>
+      </div>
+      <div class="lat-group">
+        <div class="lat-group-label">// HARDWARE + SOFTWARE</div>
+        <div class="lat-tags">
+          <span class="ltag">IoT</span>
+          <span class="ltag">Raspberry Pi</span>
         </div>
       </div>
       <div class="lat-group">
@@ -1390,18 +1442,66 @@ const introNeural = (function () {
 
   function start() {
     resize();
-    setTimeout(() => { cv.classList.add('show'); edge.classList.add('show'); }, 150);
+    setTimeout(() => {
+      cv.classList.add('show');
+      edge.classList.add('show');
+      greetEl.classList.add('show');
+    }, 150);
     requestAnimationFrame(frame);
   }
   const edge = document.getElementById('edge-glow');
+
+  /* ── rotating multilingual greeting (in native scripts) ── */
+  const GREETINGS = [
+    { w: 'Selamat datang', c: 'ID' },
+    { w: 'Welcome',        c: 'EN' },
+    { w: '你好',            c: 'ZH' },
+    { w: 'こんにちは',       c: 'JA' },
+    { w: '안녕하세요',       c: 'KO' },
+    { w: 'مرحبا',          c: 'AR' },
+    { w: 'नमस्ते',          c: 'HI' },
+    { w: 'Привет',         c: 'RU' },
+    { w: 'Hola',           c: 'ES' },
+    { w: 'Bonjour',        c: 'FR' },
+  ];
+  const greetEl   = document.getElementById('greet');
+  const greetWord = greetEl.querySelector('.greet-word');
+  let gi = 0, greetTimer = null;
+
+  function setGreeting(i) {
+    greetWord.textContent = GREETINGS[i].w;
+    // RTL for Arabic so the script renders correctly
+    greetEl.style.direction = GREETINGS[i].c === 'AR' ? 'rtl' : 'ltr';
+  }
+  setGreeting(0);
+
+  function rotateGreeting() {
+    // 1) current word rises up and sinks out of view
+    greetEl.classList.add('out');
+    setTimeout(() => {
+      // 2) swap text, submerge it below the surface (no transition yet)
+      gi = (gi + 1) % GREETINGS.length;
+      setGreeting(gi);
+      greetEl.classList.remove('out');
+      greetEl.classList.add('in');
+      // 3) next frame: release transition so it surfaces into place
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        greetEl.classList.remove('in');
+      }));
+    }, 850);   // matches the rise-out duration
+  }
+  greetTimer = setInterval(rotateGreeting, 3000);
+
   start();
 
   return {
     dismiss() {
       active = false;
       fading = true;
+      if (greetTimer) clearInterval(greetTimer);
       cv.classList.remove('show'); cv.classList.add('gone');
       edge.classList.remove('show'); edge.classList.add('gone');
+      greetEl.classList.remove('show'); greetEl.classList.add('gone');
     }
   };
 })();
