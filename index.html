@@ -89,11 +89,13 @@ body.cursor-ready button,
 body.cursor-ready .rdot,
 body.cursor-ready .cta-btn { cursor: none; }
 
+/* NOTE: deliberately NOT killing all motion under prefers-reduced-motion.
+   Scene transitions and the edge glow ARE the core experience here; nuking
+   them to 0.01ms makes the site feel broken (instant jumps, frozen glow).
+   We only soften the purely decorative looping bits. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
+  #edge-glow.show { animation-duration: 12s; }   /* gentler, not frozen */
+  .blob { transition: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -219,9 +221,15 @@ body.cursor-ready .cta-btn { cursor: none; }
   padding: 0 10vw;
   pointer-events: none;
   opacity: 0;
-  will-change: opacity, transform;
+  /* contain paint so idle scenes don't burden the compositor */
+  contain: layout paint;
+  backface-visibility: hidden;
 }
 .scene.active { pointer-events: auto; }
+/* will-change only while a scene is animating (set/removed via JS),
+   never permanently — permanent will-change on 4 full-screen layers
+   thrashes mobile GPU memory and makes everything janky */
+.scene.animating { will-change: transform, opacity; }
 
 /* ── scene 0: VOID ── full-bleed single word, animated reveal */
 #s0 .word-reveal {
@@ -1062,12 +1070,16 @@ function go(next, dir) {
   const outScene = scenes[prev];
   const inScene  = scenes[cur];
 
+  // hint the compositor only for the duration of the animation
+  outScene.classList.add('animating');
+  inScene.classList.add('animating');
+
   // GPU-accelerated transform+opacity (clip-path janks badly on mobile)
   const OUT = dir > 0 ? -8 : 8;     // % the old scene drifts away
   const IN  = dir > 0 ? 8  : -8;    // % the new scene comes from
 
   /* ── Exit outgoing ── */
-  outScene.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1), opacity .45s ease';
+  outScene.style.transition = 'transform .55s cubic-bezier(.33,0,.2,1), opacity .5s ease';
   outScene.style.transform  = `translate3d(0, ${OUT}%, 0)`;
   outScene.style.opacity    = '0';
   outScene.classList.remove('active');
@@ -1080,7 +1092,7 @@ function go(next, dir) {
   // force reflow so the start state applies before we animate
   void inScene.offsetWidth;
 
-  inScene.style.transition = 'transform .7s cubic-bezier(.16,1,.3,1), opacity .5s ease';
+  inScene.style.transition = 'transform .6s cubic-bezier(.22,1,.36,1), opacity .45s ease';
   inScene.style.transform  = 'translate3d(0, 0, 0)';
   inScene.style.opacity    = '1';
   inScene.classList.add('active');
@@ -1094,6 +1106,8 @@ function go(next, dir) {
   setTimeout(() => {
     outScene.style.transition = '';
     outScene.style.opacity    = '0';
+    outScene.classList.remove('animating');
+    inScene.classList.remove('animating');
     locked = false;
   }, LOCK);
 }
@@ -1181,6 +1195,12 @@ window.addEventListener('touchend', e => {
   const cx = cv.getContext('2d');
   let W, H;
 
+  // The whole grain/scanline/vignette canvas is desktop-only.
+  // On touch devices it's hidden via CSS AND the loop must not run at all,
+  // otherwise it burns CPU every frame drawing into a hidden canvas → jank.
+  const fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (!fine) { cv.style.display = 'none'; return; }
+
   function resize() {
     W = cv.width  = window.innerWidth;
     H = cv.height = window.innerHeight;
@@ -1192,9 +1212,7 @@ window.addEventListener('touchend', e => {
   let paused = false;
   document.addEventListener('visibilitychange', () => { paused = document.hidden; });
 
-  // grain via getImageData is expensive — desktop (mouse) only.
-  // touch / coarse-pointer devices skip it to keep scrolling smooth.
-  const allowGrain = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  const allowGrain = true; // desktop only reaches here
 
   function draw() {
     if (!paused) {
@@ -1325,14 +1343,21 @@ const introNeural = (function () {
     cx.fill();
   }
 
+  let stopped = false;
   function frame(ts) {
-    if (paused) { last = ts; requestAnimationFrame(frame); return; }
+    if (stopped) return;                       // fully stop after fade-out
+    if (paused)  { last = ts; requestAnimationFrame(frame); return; }
     const dt = Math.min((ts - last) / 1000, .05); last = ts;
     T += dt;
 
     if (fading)         fadeA = Math.max(0, fadeA - dt / 1.0);
     else if (fadeA < 1) fadeA = Math.min(1, fadeA + dt / 1.6);
-    if (fading && fadeA <= 0) { paused = true; }
+    if (fading && fadeA <= 0) {                 // done — release canvas & loop
+      cx.clearRect(0, 0, W, H);
+      cv.style.display = 'none';
+      stopped = true;
+      return;
+    }
 
     cx.clearRect(0, 0, W, H);
     cx.globalCompositeOperation = 'lighter';
