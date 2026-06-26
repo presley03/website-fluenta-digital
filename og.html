@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<title>OG Image — Fluenta Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#111; display:grid; place-items:center; min-height:100vh; }
+
+  /* exact OG dimensions */
+  .og {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    background: #040405;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+  }
+
+  /* edge lighting — blue, hugging the borders */
+  .og::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow:
+      inset 0 0 26px 0  rgba(40,120,255,.95),
+      inset 0 0 70px 2px rgba(40,120,255,.4);
+    pointer-events: none;
+  }
+
+  /* soft aurora glow behind orb */
+  .aurora {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 760px; height: 760px;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(90,70,200,.28), transparent 62%);
+    filter: blur(20px);
+  }
+
+  /* Siri-style orb (layered blobs) */
+  .orb {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 300px; height: 300px;
+    transform: translate(-50%,-50%);
+  }
+  .orb i {
+    position: absolute;
+    inset: 0;
+    border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
+    mix-blend-mode: lighten;
+    filter: blur(2px);
+    opacity: .95;
+  }
+  .orb .l1 { background: radial-gradient(circle at 42% 40%, rgba(150,110,255,1), rgba(120,80,230,.3) 55%, transparent 72%); transform: rotate(8deg); }
+  .orb .l2 { background: radial-gradient(circle at 60% 56%, rgba(70,195,255,.95), rgba(50,150,230,.25) 52%, transparent 70%); transform: rotate(-22deg) scale(.95); border-radius: 54% 46% 48% 52% / 46% 54% 46% 54%; }
+  .orb .l3 { background: radial-gradient(circle at 48% 52%, rgba(255,130,200,.85), transparent 60%); transform: rotate(40deg) scale(.88); border-radius: 50% 50% 54% 46% / 54% 46% 50% 50%; }
+  .orb .core {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 120px; height: 120px;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,.95), rgba(220,225,255,.4) 45%, transparent 72%);
+    filter: blur(3px);
+    mix-blend-mode: screen;
+  }
+
+  /* brand text — top-left like the site */
+  .brand {
+    position: absolute;
+    top: 60px; left: 70px;
+    font-family: 'Space Grotesk', sans-serif;
+    z-index: 3;
+  }
+  .brand .name {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+  .brand .name span { color: rgba(255,255,255,.45); }
+  .brand .tag {
+    margin-top: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: .22em;
+    color: rgba(120,160,255,.85);
+  }
+
+  /* headline — bottom-left */
+  .headline {
+    position: absolute;
+    bottom: 64px; left: 70px;
+    z-index: 3;
+  }
+  .headline h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 58px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.02;
+  }
+  .headline h1 .dim { color: rgba(255,255,255,.4); }
+  .headline p {
+    margin-top: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    letter-spacing: .14em;
+    color: rgba(255,255,255,.4);
+  }
+
+  /* bottom-right locale */
+  .meta {
+    position: absolute;
+    bottom: 64px; right: 70px;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: .14em;
+    color: rgba(255,255,255,.32);
+    z-index: 3;
+    line-height: 1.8;
+  }
+
+  /* film grain hint */
+  .grain {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.02) .5px, transparent .5px);
+    background-size: 3px 3px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="og" id="og">
+    <div class="aurora"></div>
+    <div class="orb">
+      <i class="l1"></i><i class="l2"></i><i class="l3"></i>
+      <div class="core"></div>
+    </div>
+    <div class="grain"></div>
+
+    <div class="brand">
+      <div class="name">FLUENTA <span>DIGITAL</span></div>
+      <div class="tag">// DIGITAL STUDIO</div>
+    </div>
+
+    <div class="headline">
+      <h1>Web. Apps.<br><span class="dim">Automation.</span></h1>
+      <p>BISNISMU, LEBIH DIGITAL</p>
+    </div>
+
+    <div class="meta">
+      PALANGKARAYA · INDONESIA<br>
+      EST. 2024
+    </div>
+  </div>
+</body>
+</html>
