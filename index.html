@@ -761,6 +761,36 @@ body:not(.cursor-ready) .qc { cursor: pointer; }
   #cursor, #cursor-ring { display:none; }
   .cta-btn { cursor: pointer; }
   .fin-link { cursor: pointer; }
+
+  /* ── Mobile performance: cut expensive compositing/paint ── */
+  /* mix-blend-mode is costly on mobile GPUs */
+  #brand { mix-blend-mode: normal; }
+  /* huge blur radii murder mobile fps — shrink them */
+  .blob { filter: blur(55px); }
+  /* the grain/scanline canvas isn't worth its cost on phones */
+  #cvs { display: none; }
+
+  /* ── Mobile readability: lift dim text so it's legible outdoors ── */
+  #s0 .tagline   { color: rgba(255,255,255,.62); }
+  #s1 .sig-desc  { color: rgba(255,255,255,.62); }
+  #s2 .lat-sub   { color: rgba(255,255,255,.62); }
+  #s0 .sub0,
+  #s1 .sig-eyebrow,
+  #s2 .lat-eyebrow,
+  #s3 .fin-over  { opacity: 1; }
+  .fin-link      { color: rgba(255,255,255,.6); }
+  #s2 .ltag      { color: rgba(255,255,255,.5); border-color: rgba(255,255,255,.14); }
+  #s2 .lat-group-label,
+  .el-service    { color: rgba(255,255,255,.4); }
+  /* slightly stronger drop-shadow so text reads over the glow */
+  .scene h1, .scene h2, .scene p { text-shadow: 0 1px 16px rgba(0,0,0,.5); }
+}
+
+/* coarse pointer = touch device, regardless of width */
+@media (pointer: coarse) {
+  #cvs { display: none; }
+  #brand { mix-blend-mode: normal; }
+  .blob { filter: blur(55px); }
 }
 </style>
 </head>
@@ -964,7 +994,7 @@ const SCENES = [
    STATE
 ══════════════════════════════════════════════════════════════ */
 let cur = 0, locked = false, started = false;
-const LOCK = 950;
+const LOCK = 820;
 
 /* ══════════════════════════════════════════════════════════════
    BUILD LATTICE BACKGROUND (scene 2)
@@ -1017,11 +1047,9 @@ const idxEl  = document.getElementById('idx');
 const hintEl = document.getElementById('hint');
 let hintDone = false;
 
-/* Clip-reveal transition:
-   outgoing scene clips from full → 0 via clip-path polygon
-   incoming scene clips from 0 → full
-   Direction: up = new slides in from bottom, old exits top
-              down = new slides in from top, old exits bottom */
+/* Scene transition (GPU transform + opacity):
+   up   = new scene rises from below, old drifts up & fades
+   down = new scene drops from above, old drifts down & fades */
 function go(next, dir) {
   next = ((next % 4) + 4) % 4;
   if (locked || next === cur) return;
@@ -1034,26 +1062,27 @@ function go(next, dir) {
   const outScene = scenes[prev];
   const inScene  = scenes[cur];
 
-  /* ── Exit: clip outgoing ── */
-  outScene.style.transition = 'clip-path .65s cubic-bezier(.7,0,1,1), opacity .65s ease';
-  outScene.style.clipPath = dir > 0
-    ? 'inset(0 0 100% 0)'   // exit upward
-    : 'inset(100% 0 0 0)';  // exit downward
-  outScene.style.opacity = '0';
+  // GPU-accelerated transform+opacity (clip-path janks badly on mobile)
+  const OUT = dir > 0 ? -8 : 8;     // % the old scene drifts away
+  const IN  = dir > 0 ? 8  : -8;    // % the new scene comes from
+
+  /* ── Exit outgoing ── */
+  outScene.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1), opacity .45s ease';
+  outScene.style.transform  = `translate3d(0, ${OUT}%, 0)`;
+  outScene.style.opacity    = '0';
   outScene.classList.remove('active');
 
-  /* ── Enter: prepare + animate incoming ── */
+  /* ── Prepare + animate incoming ── */
   inScene.style.transition = 'none';
-  inScene.style.opacity = '1';
-  inScene.style.clipPath = dir > 0
-    ? 'inset(100% 0 0 0)'   // start below
-    : 'inset(0 0 100% 0)';  // start above
+  inScene.style.transform  = `translate3d(0, ${IN}%, 0)`;
+  inScene.style.opacity    = '0';
 
-  // force reflow
+  // force reflow so the start state applies before we animate
   void inScene.offsetWidth;
 
-  inScene.style.transition = 'clip-path .8s cubic-bezier(.16,1,.3,1), opacity .4s ease';
-  inScene.style.clipPath = 'inset(0 0 0 0)';
+  inScene.style.transition = 'transform .7s cubic-bezier(.16,1,.3,1), opacity .5s ease';
+  inScene.style.transform  = 'translate3d(0, 0, 0)';
+  inScene.style.opacity    = '1';
   inScene.classList.add('active');
 
   // accent + dots + index
@@ -1064,7 +1093,6 @@ function go(next, dir) {
   // cleanup old after transition
   setTimeout(() => {
     outScene.style.transition = '';
-    outScene.style.clipPath   = '';
     outScene.style.opacity    = '0';
     locked = false;
   }, LOCK);
@@ -1075,7 +1103,7 @@ function go(next, dir) {
 ══════════════════════════════════════════════════════════════ */
 // initial state — EVERYTHING hidden. The screen opens empty;
 // the first scroll/key/tap reveals scene 0.
-scenes.forEach(s => { s.style.opacity = '0'; s.style.clipPath = 'inset(100% 0 0 0)'; });
+scenes.forEach(s => { s.style.opacity = '0'; s.style.transform = 'translate3d(0,8%,0)'; });
 document.getElementById('ghost-num').style.opacity = '0';
 
 // reveal scene 0 on the very first interaction
@@ -1084,14 +1112,15 @@ function reveal() {
   started = true;
   if (typeof introNeural !== 'undefined' && introNeural) introNeural.dismiss();
   const s0 = scenes[0];
-  s0.style.transition = 'clip-path .9s cubic-bezier(.16,1,.3,1), opacity .5s ease';
+  void s0.offsetWidth;
+  s0.style.transition = 'transform .8s cubic-bezier(.16,1,.3,1), opacity .6s ease';
+  s0.style.transform = 'translate3d(0,0,0)';
   s0.style.opacity = '1';
-  s0.style.clipPath = 'inset(0 0 0 0)';
   s0.classList.add('active');
   document.getElementById('ghost-num').style.opacity = '';
   if (!hintDone) { hintEl.classList.add('gone'); hintDone = true; }
   locked = true;
-  setTimeout(() => { locked = false; }, 900);
+  setTimeout(() => { locked = false; }, 800);
 }
 
 // advance helper: handles the first-reveal case, then normal navigation
